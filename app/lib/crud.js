@@ -34,18 +34,51 @@ export const getUsers = async () => {
     }
 }
 
-export const updateuser = async ({}) => {
+export const getUserByEmail = async ({ email }) => {
     try {
         const prisma = new PrismaClient()
 
-        const updatedUser = await prisma.user.update({
-            data: {},
+        const user = await prisma.user.findUnique({
             where: {
                 email
             }
         })
 
+        return user
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const updateUser = async ({ name:name, email:email}) => {
+    try {
+        const prisma = new PrismaClient()
+
+        const updatedUser = await prisma.user.update({
+            where: {
+                email
+            },
+            data: { name: name , email: email},
+        })
+
         console.log(updatedUser)
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const deleteUser = async ({ email }) => {
+    try {
+        const prisma = new PrismaClient()
+
+        const deletedUser = await prisma.user.delete({
+            where: {
+                email
+            }
+        })
+
+        console.log(deletedUser)
 
     } catch (error) {
         console.log(error)
